@@ -5,6 +5,7 @@ import com.simecad.simecad.service.UsuarioService;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,10 +28,15 @@ public class LoginController {
         boolean disponible = usuarioService.validarCorreo(correo);
         
         if(disponible){
+            usuario.setImagen("");
+            usuario.setRol("Cliente");
+            if(usuario.getCelular() == null){
+                usuario.setCelular("");
+            }
             usuarioService.registrarUsuario(usuario);
             return ResponseEntity.ok("Usuario registrado con éxito");
         }
-        return ResponseEntity.ok("El correo ya está en uso");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("El correo ya está en uso");
     }
 
     @PostMapping("/login")
@@ -41,18 +47,20 @@ public class LoginController {
 
         if (usuarioLogin != null) {
             Map usuarioRespuesta = new HashMap();
+            
             usuarioRespuesta.put("nombre", usuarioLogin.getNombre());
             usuarioRespuesta.put("imagen", usuarioLogin.getImagen());
             usuarioRespuesta.put("rol", usuarioLogin.getRol());
+            usuarioRespuesta.put("id", usuarioLogin.getId());
             
             Map respuesta = new HashMap();
             
-            respuesta.put("token", "dsada");
+            respuesta.put("token", "dsadafdsfe4342b3dsfv");
             respuesta.put("usuario", usuarioRespuesta);
 
             return ResponseEntity.ok(respuesta);
         }
-        return ResponseEntity.ok("Usuario o contraseña no válidas");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario o contraseña no válidas");
     }
 
 }
