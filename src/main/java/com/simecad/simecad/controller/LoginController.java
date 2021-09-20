@@ -1,6 +1,8 @@
 package com.simecad.simecad.controller;
 
 import com.simecad.simecad.domain.Usuario;
+import com.simecad.simecad.dto.LoginResponseDTO;
+import com.simecad.simecad.dto.UsuarioDTO;
 import com.simecad.simecad.service.UsuarioService;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,25 +42,25 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
+    public ResponseEntity login(@RequestBody Usuario usuario) {
         String correo = usuario.getCorreo();
         String contrasena = usuario.getContrasena();
         Usuario usuarioLogin = usuarioService.validarCredenciales(correo, contrasena);
 
         if (usuarioLogin != null) {
-            Map usuarioRespuesta = new HashMap();
             
-            usuarioRespuesta.put("nombre", usuarioLogin.getNombre());
-            usuarioRespuesta.put("imagen", usuarioLogin.getImagen());
-            usuarioRespuesta.put("rol", usuarioLogin.getRol());
-            usuarioRespuesta.put("id", usuarioLogin.getId());
+            LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
+            loginResponseDTO.setToken("dsadhisaoidhsoai"); //Implementar después
             
-            Map respuesta = new HashMap();
+            UsuarioDTO usuarioDTO = new UsuarioDTO();
+            usuarioDTO.setId(usuarioLogin.getId());
+            usuarioDTO.setNombre(usuarioLogin.getNombre());
+            usuarioDTO.setRol(usuarioLogin.getRol());
+            usuarioDTO.setImagen(usuarioLogin.getImagen());
             
-            respuesta.put("token", "dsadafdsfe4342b3dsfv");
-            respuesta.put("usuario", usuarioRespuesta);
+            loginResponseDTO.setUsuarioDTO(usuarioDTO);
 
-            return ResponseEntity.ok(respuesta);
+            return ResponseEntity.ok(loginResponseDTO);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario o contraseña no válidas");
     }

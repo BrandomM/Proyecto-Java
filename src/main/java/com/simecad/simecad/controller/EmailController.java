@@ -1,5 +1,8 @@
 package com.simecad.simecad.controller;
 
+import com.simecad.simecad.dto.ContactRequestDTO;
+import com.simecad.simecad.dto.MessageToManyRequestDTO;
+import com.simecad.simecad.dto.MessageToOneRequestDTO;
 import com.simecad.simecad.service.EmailService;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +25,10 @@ public class EmailController {
     EmailService emailService;
 
     @PostMapping("/contacto")
-    public void contactEmail(@RequestBody Map<String, Object> body) {
-        String nombre = body.get("nombre").toString();
-        String correo = body.get("correo").toString();
-        String mensaje = body.get("mensaje").toString();
+    public void contactEmail(@RequestBody ContactRequestDTO contactRequestDTO) {
+        String nombre = contactRequestDTO.getNombre();
+        String correo = contactRequestDTO.getCorreo();
+        String mensaje = contactRequestDTO.getMensaje();
 
         String mensajeContacto = "Tienes un mensaje de " + nombre + ": \n" + mensaje + "\n" + "Correo: " + correo;
         String asunto = nombre + " quiere contactarte";
@@ -34,26 +37,20 @@ public class EmailController {
     }
 
     @PostMapping("/simple/unico")
-    public void sendSimpleMessageToOne(@RequestBody Map<String, Object> body) {
-        String destinatario = body.get("destinatario").toString();
-        String asunto = body.get("asunto").toString();
-        String mensaje = body.get("mensaje").toString();
+    public void sendSimpleMessageToOne(@RequestBody MessageToOneRequestDTO messageToOneRequestDTO) {
+        String destinatario = messageToOneRequestDTO.getDestinatario();
+        String asunto = messageToOneRequestDTO.getAsunto();
+        String mensaje = messageToOneRequestDTO.getMensaje();
 
         emailService.sendSimpleMessageToOne(destinatario, asunto, mensaje);
     }
 
     @PostMapping("/simple/multiple")
-    public void sendSimpleMessageToMany(@RequestBody Map<String, Object> body) {
-        List<Object> destinatariosObjects = (List<Object>) body.get("destinatarios");
+    public void sendSimpleMessageToMany(@RequestBody MessageToManyRequestDTO messageToManyRequestDTO) {
 
-        List<String> destinatariosList = destinatariosObjects.stream()
-                .map(object -> Objects.toString(object, null))
-                .collect(Collectors.toList());
-
-        String[] destinatarios = destinatariosList.toArray(new String[0]);
-
-        String asunto = body.get("asunto").toString();
-        String mensaje = body.get("mensaje").toString();
+        String[] destinatarios = messageToManyRequestDTO.getDestinatarios();
+        String asunto = messageToManyRequestDTO.getAsunto();
+        String mensaje = messageToManyRequestDTO.getMensaje();
 
         emailService.sendSimpleMessageToMany(destinatarios, asunto, mensaje);
     }
