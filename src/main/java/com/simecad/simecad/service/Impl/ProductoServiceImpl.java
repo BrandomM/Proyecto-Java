@@ -1,4 +1,3 @@
-
 package com.simecad.simecad.service.Impl;
 
 import com.simecad.simecad.dao.ProductoDAO;
@@ -13,7 +12,7 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     ProductoDAO productoDAO;
-    
+
     @Override
     public List<Producto> listarProductos() {
         return productoDAO.findAll();
@@ -39,5 +38,10 @@ public class ProductoServiceImpl implements ProductoService {
         productoDAO.delete(producto);
         return producto;
     }
-    
+
+    @Override
+    public List<Producto> listarProductosDisponibles() {
+        return productoDAO.listarProductosDisponibles();
+    }
+
 }

@@ -10,5 +10,6 @@ public interface ProductoService {
     Producto registrarProducto(Producto producto);
     Producto modificarProducto(Producto producto);
     Producto eliminarProducto(Producto producto);
+    List<Producto> listarProductosDisponibles();
 
 }
