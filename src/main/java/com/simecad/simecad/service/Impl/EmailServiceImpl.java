@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendSimpleMessageToOne(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("bcmosquera59@misena.edu.co");
+        message.setFrom("correo@gmail.co");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
@@ -32,7 +32,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendSimpleMessageToMany(String[] to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("bcmosquera59@misena.edu.co");
+        message.setFrom("correo@gmail.co");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
@@ -45,7 +45,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("bcmosquera59@misena.edu.co");
+            helper.setFrom("correo@gmail.co");
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(text);
@@ -66,7 +66,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("bcmosquera59@misena.edu.co");
+            helper.setFrom("correo@gmail.co");
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(text);
